@@ -5,8 +5,6 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
-using Tao.FreeType;
-
 namespace RageWorld
 {
 	public sealed class Window : Frame
@@ -15,18 +13,11 @@ namespace RageWorld
 		public Vector2 TopRight { get; set; }
 		public Color Color { get; set; }
 
-		IntPtr lib;
-
 		public Window(Vector2 bottomLeft, Vector2 topRight)
 		{
 			BottomLeft = bottomLeft;
 			TopRight = topRight;
 			Color = Color.FromArgb(33, 33, 33, 33);
-
-			int r = FT.FT_Init_FreeType(out lib);
-			if (r != 0)
-			{
-			}
 		}
 
 		public override void Render(double time)
