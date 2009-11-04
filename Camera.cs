@@ -133,7 +133,12 @@ namespace RageWorld
 		private void OnMouseMove(object s, MouseMoveEventArgs e)
 		{
 			if (_mouseLeftDrag || _mouseRightDrag)
-				TargetOrientation *= Quaternion.FromAxisAngle(Right, e.YDelta * _rotateScale) * Quaternion.FromAxisAngle(Up, e.XDelta * _rotateScale);
+			{
+				float dx = e.XDelta * _rotateScale;
+				float dy = e.YDelta * _rotateScale;
+
+				TargetOrientation *= Quaternion.FromAxisAngle(Right, dy) * Quaternion.FromAxisAngle(Up, dx);
+			}
 		}
 	}
 }
