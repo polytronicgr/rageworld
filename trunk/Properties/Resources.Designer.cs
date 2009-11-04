@@ -61,6 +61,15 @@ namespace RageWorld.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to frame.
+        /// </summary>
+        internal static string Frame {
+            get {
+                return ResourceManager.GetString("Frame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RageWorld.
         /// </summary>
         internal static string Name {
