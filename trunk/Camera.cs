@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 
 using OpenTK;
 using OpenTK.Graphics;
@@ -78,28 +77,34 @@ namespace RageWorld
 				if (_keyboard[Key.Down] || _keyboard[Key.S])
 					rotate += -Right * _rotateScale;
 				if (_keyboard[Key.Left] || _keyboard[Key.A])
-					rotate += -Up * _rotateScale;
+					rotate += -(Behavior == CameraBehavior.Flight ? Up : Vector3.UnitY) * _rotateScale;
 				if (_keyboard[Key.Right] || _keyboard[Key.D])
-					rotate += Up * _rotateScale;
-				if (_keyboard[Key.PageUp] || _keyboard[Key.R])
-					rotate += Forward * _rotateScale;
-				if (_keyboard[Key.PageDown] || _keyboard[Key.F])
-					rotate += -Forward * _rotateScale;
+					rotate += (Behavior == CameraBehavior.Flight ? Up : Vector3.UnitY) * _rotateScale;
+				if (Behavior == CameraBehavior.Flight)
+				{
+					if (_keyboard[Key.PageUp] || _keyboard[Key.R])
+						rotate += Forward * _rotateScale;
+					if (_keyboard[Key.PageDown] || _keyboard[Key.F])
+						rotate += -Forward * _rotateScale;
+				}
 			}
 			else
 			{
 				if (_keyboard[Key.Up] || _keyboard[Key.W])
-					translate += Forward * _translateScale;
+					translate += (Behavior == CameraBehavior.Flight ? Forward : Vector3.Cross(Vector3.UnitY, -Right)) * _translateScale;
 				if (_keyboard[Key.Down] || _keyboard[Key.S])
-					translate += -Forward * _translateScale;
+					translate += (Behavior == CameraBehavior.Flight ? -Forward : Vector3.Cross(Vector3.UnitY, Right)) * _translateScale;
 				if (_keyboard[Key.Left] || _keyboard[Key.A])
 					translate += Right * _translateScale;
 				if (_keyboard[Key.Right] || _keyboard[Key.D])
 					translate += -Right * _translateScale;
-				if (_keyboard[Key.PageUp] || _keyboard[Key.R])
-					translate += -Up * _translateScale;
-				if (_keyboard[Key.PageDown] || _keyboard[Key.F])
-					translate += Up * _translateScale;
+				if (Behavior == CameraBehavior.Flight)
+				{
+					if (_keyboard[Key.PageUp] || _keyboard[Key.R])
+						translate += -Up * _translateScale;
+					if (_keyboard[Key.PageDown] || _keyboard[Key.F])
+						translate += Up * _translateScale;
+				}
 			}
 
 			if (_keyboard[Key.Q])
@@ -108,7 +113,13 @@ namespace RageWorld
 				rotate += Up * _rotateScale;
 
 			if (_mouse[MouseButton.Right] && _mouse[MouseButton.Left])
-				translate += Forward * _translateScale;
+				translate += (Behavior == CameraBehavior.Flight ? Forward : Vector3.Cross(Vector3.UnitY, -Right)) * _translateScale;
+		}
+
+		public void StopDrag()
+		{
+			_mouseLeftDrag = false;
+			_mouseRightDrag = false;
 		}
 
 		private void OnMouseButtonDown(object s, MouseButtonEventArgs e)
@@ -137,7 +148,10 @@ namespace RageWorld
 				float dx = e.XDelta * _rotateScale;
 				float dy = e.YDelta * _rotateScale;
 
-				TargetOrientation *= Quaternion.FromAxisAngle(Right, dy) * Quaternion.FromAxisAngle(Up, dx);
+				if (Behavior == CameraBehavior.Flight)
+					TargetOrientation *= Quaternion.FromAxisAngle(Right, dy) * Quaternion.FromAxisAngle(Up, dx);
+				else if (Behavior == CameraBehavior.FirstPerson)
+					TargetOrientation *= Quaternion.FromAxisAngle(Right, dy) * Quaternion.FromAxisAngle(Vector3.UnitY, dx);
 			}
 		}
 	}
