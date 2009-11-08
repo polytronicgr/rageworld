@@ -47,6 +47,7 @@ namespace RageWorld
 
 		public virtual void Update(double time)
 		{
+			//TODO prevent roll for first person camera
 			if (_orientation != _targetOrientation)
 				_orientation = Quaternion.Slerp(_orientation, _targetOrientation, (float)time);
 
