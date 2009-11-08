@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -50,11 +49,13 @@ namespace RageWorld
 		{
 			if (_orientation != _targetOrientation)
 				_orientation = Quaternion.Slerp(_orientation, _targetOrientation, (float)time);
-	
-			if (_position != _targetPosition)
+
+			Vector3 delta = _position - _targetPosition;
+			if ((delta.X > float.Epsilon) || (delta.Y > float.Epsilon) || (delta.Z > float.Epsilon))
 				_position = Vector3.Lerp(_position, _targetPosition, (float)time);
 
-			if (_scale != _targetScale)
+			delta = _scale - _targetScale;
+			if ((delta.X > float.Epsilon) || (delta.Y > float.Epsilon) || (delta.Z > float.Epsilon))
 				_scale = Vector3.Lerp(_scale, _targetScale, (float)time);
 
 			for (int i = 0; i < _children.Count; i++)
@@ -70,6 +71,10 @@ namespace RageWorld
 		public Vector3 Forward { get { return _orientation.Apply(Vector3.UnitZ); } }
 		public Vector3 Right { get { return _orientation.Apply(Vector3.UnitX); } }
 		public Vector3 Up { get { return _orientation.Apply(Vector3.UnitY); } }
+
+		public Vector3 TargetForward { get { return _targetOrientation.Apply(Vector3.UnitZ); } }
+		public Vector3 TargetRight { get { return _targetOrientation.Apply(Vector3.UnitX); } }
+		public Vector3 TargetUp { get { return _targetOrientation.Apply(Vector3.UnitY); } }
 
 		private Quaternion _orientation;
 		public Quaternion Orientation
