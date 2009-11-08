@@ -8,8 +8,6 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
-using RageWorld.Properties;
-
 namespace RageWorld
 {
 	public sealed class Game : GameWindow
@@ -18,9 +16,10 @@ namespace RageWorld
 		private Window _window;
 		private Timer _timer = new Timer();
 		private bool _updateFps = false;
+		private static readonly string name = "RageWorld";
 
 		public Game()
-			: base(800, 600, GraphicsMode.Default, Resources.Name)
+			: base(800, 600, GraphicsMode.Default, name)
 		{
 			Icon = Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly().Location);
 
@@ -43,6 +42,8 @@ namespace RageWorld
 				_camera.Children.Add(t);
 			}
 			_camera.Children.Add(_window);
+
+			MouseLeave += (s, e) => _camera.StopDrag();
 		}
 
 		protected override void OnLoad(EventArgs e)
@@ -90,7 +91,7 @@ namespace RageWorld
 			{
 				_updateFps = false;
 
-				Title = String.Format("{0} ({1:F2})", Resources.Name, 1.0f / e.Time);
+				Title = String.Format("{0} ({1:F2})", name, 1.0f / e.Time);
 			}
 
 			base.OnUpdateFrame(e);
