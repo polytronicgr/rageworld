@@ -29,18 +29,13 @@ namespace RageWorld
 			_timer.Interval = 1000;
 			_timer.Start();
 
-			_camera = new Camera(Keyboard, Mouse, CameraBehavior.FirstPerson);
+			_camera = new Camera(Keyboard, Mouse, CameraBehavior.Flight);
 			_window = new Window(new Vector2(0.02f, 0.02f), new Vector2(0.98f, 0.25f));
 			_camera.Children.Add(new Axis());
 			_camera.Children.Add(new Grid(1.0f, 25.0f));
 			_camera.Children.Add(new Cube(5.0f, 0.0f, 5.0f, 2.0f));
 			_camera.Children.Add(new Cube(-5.0f, 0.0f, -5.0f));
-			for (int i = 0; i < 100; i++)
-			{
-				Triangle t = new Triangle((float)Utility.GetRandomNumber(-10.0, 10.0), 0.0f, (float)Utility.GetRandomNumber(-10.0, 10.0), (float)Utility.GetRandomNumber(0.1, 2.0));
-				t.Orientation = Quaternion.FromAxisAngle(Vector3.UnitY, (float)Utility.GetRandomNumber(0.0, 360.0));
-				_camera.Children.Add(t);
-			}
+			_camera.Children.Add(new Triangle(5.0f));
 			_camera.Children.Add(_window);
 
 			//TODO bugs next mouseDown?
