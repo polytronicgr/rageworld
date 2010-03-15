@@ -248,6 +248,19 @@ namespace RageWorld
 
 			GL.PopMatrix();
 		}
+
+		static float angle = 0.0f;
+
+		public override void Update(double time)
+		{
+			base.Update(time);
+
+			angle += 0.01f;
+			if (angle > 360)
+				angle = 0.0f;
+
+			Orientation = Quaternion.FromAxisAngle(Up, angle);
+		}
 	}
 
 	public static class Utility
