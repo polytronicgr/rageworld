@@ -38,7 +38,6 @@ namespace RageWorld
 			_camera.Children.Add(new Triangle(5.0f));
 			_camera.Children.Add(_window);
 
-			//TODO bugs next mouseDown?
 			MouseLeave += (s, e) => _camera.StopDrag();
 		}
 
