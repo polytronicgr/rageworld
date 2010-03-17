@@ -24,21 +24,21 @@ namespace RageWorld
 			Icon = Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly().Location);
 
 			Keyboard.KeyDown += new EventHandler<KeyboardKeyEventArgs>(OnKeyDown);
+			MouseLeave += (s, e) => _camera.StopDrag();
 
 			_timer.Elapsed += (s, e) => { _updateFps = true; };
 			_timer.Interval = 1000;
 			_timer.Start();
 
-			_camera = new Camera(Keyboard, Mouse, CameraBehavior.Flight);
 			_window = new Window(new Vector2(0.02f, 0.02f), new Vector2(0.98f, 0.25f));
+
+			_camera = new Camera(Keyboard, Mouse, CameraBehavior.Flight);
 			_camera.Children.Add(new Axis());
 			_camera.Children.Add(new Grid(1.0f, 25.0f));
 			_camera.Children.Add(new Cube(5.0f, 0.0f, 5.0f, 2.0f));
 			_camera.Children.Add(new Cube(-5.0f, 0.0f, -5.0f));
 			_camera.Children.Add(new Triangle(5.0f));
 			_camera.Children.Add(_window);
-
-			MouseLeave += (s, e) => _camera.StopDrag();
 		}
 
 		protected override void OnLoad(EventArgs e)
