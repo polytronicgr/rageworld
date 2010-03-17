@@ -50,6 +50,8 @@ namespace RageWorld
 			GL.DepthFunc(DepthFunction.Lequal);
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+			GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
+			GL.PolygonMode(MaterialFace.Back, PolygonMode.Line);
 
 			base.OnLoad(e);
 		}
